@@ -1,0 +1,147 @@
+.TH WHISPER 1 "24 May 2023"
+.SH NAME
+whisper - a simple expression calculator in your terminal
+.SH SYNOPSIS
+.B
+whisper
+.SH DESCRIPTION
+.PP
+Whisper is a programming language with a lightweight syntax in order
+to quickly and easily create and evaluate numerical functions with iteration 
+and conditionals. 
+.PP
+Whisper's backend is written in the Ruby programming language
+and is designed to be used interactively in your terminal.
+.SH 
+DATATYPES
+.PP
+\fBIntegers\fR
+.PP
+\fBDoubles\fR
+.PP
+\fBArrays\fR
+.PP
+\fBRecords\fR (hash-like data structure)
+.SH
+Supported Operations
+.PP
+\fBArithmetic:\fR +,-,*,/,%, <<, >>, |, &, ^, @ where '@' is the exponential operator in Whisper
+.PP
+\fBComparison:\fR <, >, <=, >=, ==, !=
+.PP
+\fBLogical:\fR &&, ||, !
+.PP
+.SH
+Variable Declarations:
+.PP
+\fBDeclare a variable like so:\fR let a = 7
+.PP
+\fBChain multiple declarative statements with ';':\fR let a = 7; let b = 9; a@b
+.SH
+Function Declarations:
+.PP
+let f(x, y, z, h, k) = { h@x + y*z*k + x*y }
+.PP
+\fBExecute the function:\fR f(1, 2, 3, 4, 5)
+.PP
+\fBRecursive functions:\fR
+.PP
+Whisper supports simple recursive functions, such as:
+.PP
+let factorial(n) = {if n <= 0 then {1} else {n*factorial(n-1)}}
+.PP
+and
+.PP
+let fib(x) = {if x <= 0 then {0} else {if x == 1 then {1} else {fib(x-2) + fib(x-1)}}} 
+.SH
+Array Declarations:
+let a = [1,2,3]
+.PP
+\fBBuilt-in Arrays:\fR
+.PP
+let n = N{10} will set n to the array: [0,1,2,3,4,5,6,7,8,9,10]
+.PP
+let p = Primes{10} will set p to the array: [2,3,5,7]
+.PP
+\fBBuilt-in Array functions:\fR
+.PP
+a?size      -> returns the number of elements in array 'a'
+.PP
+a?empty     -> returns true if a?size == 0, false otherwise
+.PP
+a!set       -> sorts the array 'a' and removes repeated elements
+.PP
+a!flip      -> reverses the array 'a'
+.PP
+a!sort      -> sorts the array 'a'
+.PP
+a.map(f)    -> calls the function f for each element in the array 'a'
+.PP
+a.filter(f) -> removes all elements in the array 'a' for which evaluated in f return false
+.SH
+Other Built in functions:
+.PP
+show(a)     -> prints the value of 'a'
+.PP
+a?prime     -> returns true if the integer 'a' is prime, false otherwise
+.SH
+Record Declarations:
+let Boxes = {box1 = {height = 3; width = 6}; box2 = {height = 7; width = 4}}
+.PP
+\fBAccess the values as:\fR
+.PP
+Boxes.box1 = {height = 3; width = 6}
+.PP
+let area_box_1 = Boxes.box1.height * Boxes.box1.width;
+.PP
+\fBCalling the variable\fR area_box_1 will give: 18
+.SH
+Loops and Conditionals:
+.PP
+\fBif-statements:\fR
+.PP
+if <boolean expression> then {...}
+.PP
+if <boolean expression> then {...} else {...}
+.PP
+\fBwhile-loops:\fR
+.PP
+while boolean condition do {...}
+.PP
+\fBexamples:\fR
+.PP
+let a = 999983; if a?prime then {a*2} else {a % 2}
+.PP
+let a = 77; let f(x) = x@2; if f(a) < 2000 then {a / 10}
+.PP
+let a = 0; while a < 20 do {show(a); a+=1}
+.PP
+let a = 0; let f(x, y) = {if x?prime then {x} else {y@3}}; while f(a, 3) < 100 do {show(a); let a = a+1}
+.PP
+\fBIterate over arrays:\fR
+.PP
+You can iterate over arrays in Whisper with while-loops, such as:
+.PP
+let a = N{100} - Primes{100}; let i = 0; let b = a?size; while i < b do {show(a[i]); i += 1}
+.PP
+This would first create an array whose elements are the composite (nonprime) numbers 0 - 100.
+Then this would print each value in the array.
+.PP
+\fBFor-loops:\fR
+.PP
+using the same example array 'a' as above:
+.PP
+let a = N{100} - Primes{100}; for x in a do {show(x)}
+.PP
+would achieve the same result as the while-loops.
+.SH
+Problems
+.PP
+Records are very limited in their functionality. We have not implemented operations on records other than access.
+Additionally, Record structures that are very assymmetric will fail with access. This is due to 
+poorly implemented parsing, which will be fixed in further versions.
+String operations are not supported yet.
+.SH AUTHORS
+Warren Crutcher and Viktor Norlin
+.PP
+contact us: warcr701@student.liu.se or vikno856@student.liu.se

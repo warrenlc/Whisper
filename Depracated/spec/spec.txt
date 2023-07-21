@@ -1,0 +1,113 @@
+Nedan följer en lista med egenskaper som vårt språk önskas ha.
+
+- Språket ska, om möjligt, vara imperativt, interpreterat och statiskt typat.
+- Språket ska stödja de "vanliga" datatyperna, så som float, int, bool etc.
+- Språket ska ha stöd för funktioner. Funktioners returtyp ska vara hårt typat.
+- Språket är "general purpose", alltså har det inget specifikt syfte utöver att vara ett generellt programspråk.
+
+Nedan följer några kodexempel på hur språket skrivs.
+
+# deklarera variabler
+let age -> int = 30
+let height -> float = 5.6
+let name -> string = "John Doe"
+
+# funktion som tar två int som argument och returnerar en int
+let add -> (num1 -> int, num1 -> int) int {
+    ...
+}
+
+# funktion som tar inga argument och inte returnerar något
+let print -> () void {
+    ...
+}
+
+# if-sats
+let x -> int 10
+let x -> int 5
+
+if (x > y) {
+    print(x)
+} else {
+    print(y)
+}
+
+# hur gör vi loopar?
+
+for (let i -> int = 0; i < 10; ++i) {
+    ...
+}
+
+for (i -> int in 1 to 10) {
+    ...
+}
+
+# hur hanterar vi fel?
+Vi anser att felhanteringen kommer
+vara en väldigt viktig del av språkets
+utveckling och användbarhet. Just nu är vi 
+osäkra om detaljarna angående s.k. "Stack Traces"
+men vi planerar utveckla den delen löpande under
+språkets utveckling. 
+
+
+## Kopior eller Referenser?
+    
+    - Vi vill att alla variabler som skickas till en funktion
+      är referenser -- inte kopior. Vi vet dock inte om det blir
+      svårare eller lättare att implementera. Det känns bara mer 
+      robust att om ett värde skickas till en funktion för att muteras
+      att värdet faktiskt ändras. 
+
+      Däremot vill vi att det händer per automatik och att programmeraren
+      inte behöver bestämma manuellt (som i C eller C++)
+
+## Scope
+    
+    - Språket ska var väldigt statiskt skopat. Globala variabler är inte tillåtet.
+      Vi tycker att detta kommer göra den funktionella sidan av språket mer ren och
+      minska sidoeffekter. Tanken är att vi har nästlade Hash där variable namn eller
+      funktionsnamn blir nyckel och värdet på variabler är nyckelns värde, samt funktionskropp
+      blir värde till en funkitonsnamns nyckel.
+
+      Vi tänker också att vi vill ha de olika delar av ett program uppdelat på ett sätt som liknar
+      C++, dvs funktion deklaration, definitioner och en main funktion på olika ställen i filen, markerat
+      med måsvingar. Vi vill göra det så tydligt som möjligt för när vi hanterar skopen vad tillhör vad.
+
+ 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

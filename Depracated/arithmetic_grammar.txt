@@ -1,0 +1,214 @@
+Aithmetic grammar
+
+<stmt> ::= <term> | <assign>
+<term> ::= <factor> | <term> <addop> <factor>
+<factor> ::= <atom> | <factor> <mulop> <atom>
+<atom> ::= <number> | <variable> | "(" <term> ")" | <addop> <atom>
+<number> ::= <integer> | <real>
+<integer> ::= <digit> | <digit> <integer>
+<real> ::= <integer> "." <integer>
+<digit> ::= [0-9]
+<variable> ::= <letter> | <letter> <variable>
+<letter> ::= [a-z] | [A-Z]
+<addop> ::= "+" | "-"
+<mulop> ::= "*" | "/"
+<assign> ::= <variable> "=" <term>
+
+Arithmetic and logical grammar
+
+<stmt> ::= <term> | <assign>
+<term> ::= <factor> | <term> <addop> <factor> | <term> <orop> <factor>
+<factor> ::= <atom> | <factor> <mulop> <atom> | <factor> <andop> <atom>
+<atom> ::= <number> | <bool> | <variable> | "(" <term> ")" | <addop> <atom> | <notop> <atom>
+<number> ::= <integer> | <real>
+<integer> ::= <digit> | <digit> <integer>
+<real> ::= <integer> "." <integer>
+<digit> ::= [0-9]
+<variable> ::= <letter> | <letter> <variable>
+<letter> ::= [a-z] | [A-Z]
+<bool> ::= "true" | "false"
+<addop> ::= "+" | "-"
+<mulop> ::= "*" | "/"
+<orop> ::= "||"
+<andop> ::= "&&"
+<notop> ::= "!"
+<assign> ::= <variable> "=" <term>
+
+Alternative arithmetic and logical grammar
+
+<stmt> ::= <term> | <assign>
+<term> ::= <arithmetic_term> | <logical_term>
+<arithmetic_term> ::= <arithmetic_factor> | <arithmetic_term> <addop> <arithmetic_factor>
+<arithmetic_factor> ::= <arithmetic_atom> | <arithmetic_factor> <mulop> <arithmetic_atom>
+<arithmetic_atom> ::= <number> | <variable> | "(" <arithmetic_term> ")" | <addop> <arithmetic_atom>
+<logical_term> ::= <logical_factor> | <logical_term> <orop> <logical_factor>
+<logical_factor> ::= <logical_atom> | <logical_factor> <andop> <logical_atom>
+<logical_atom> ::= <bool> | <variable> | "(" <logical_term> ")" | <notop> <logical_atom>
+<number> ::= <integer> | <real>
+<integer> ::= <digit> | <digit> <integer>
+<real> ::= <integer> "." <integer>
+<digit> ::= [0-9]
+<variable> ::= <letter> | <letter> <variable>
+<letter> ::= [a-z] | [A-Z]
+<bool> ::= "true" | "false"
+<addop> ::= "+" | "-"
+<mulop> ::= "*" | "/"
+<orop> ::= "||"
+<andop> ::= "&&"
+<notop> ::= "!"
+<assign> ::= <variable> "=" <term>
+
+Problemet med grammatiken ovan är att en variabel kan vara "false", så uttryck som "false=true" 
+blir valid. Även uttryck som "21+false" är valid, då "false" i detta fallet räknas som en variabel 
+och inte en faktisk bool.
+
+** Försöker leka lite med conditional (if, while) och comparison...men fan det är svårt
+
+<stmt> ::= <term> | <assign>
+<term> ::= <arithmetic_term> | <logical_term>
+<arithmetic_term> ::= <arithmetic_factor> | <arithmetic_term> <addop> <arithmetic_factor>
+<arithmetic_factor> ::= <arithmetic_atom> | <arithmetic_factor> <mulop> <arithmetic_atom>
+<arithmetic_atom> ::= <number> | <variable> | "(" <arithmetic_term> ")" | <addop> <arithmetic_atom>
+<logical_term> ::= <logical_factor> | <logical_term> <orop> <logical_factor>
+<logical_factor> ::= <logical_atom> | <logical_factor> <andop> <logical_atom>
+<logical_atom> ::= <bool> | <variable> | "(" <logical_term> ")" | <notop> <logical_atom>
+<compare_term> ::= <arithmetic_atom> <compareop> <arithmetic_factor>
+<control> ::= <conditional> " (" <logical_term> ") {"
+<number> ::= <integer> | <real>
+<integer> ::= <digit> | <digit> <integer>
+<real> ::= <integer> "." <integer>
+<digit> ::= [0-9]
+<variable> ::= <letter> | <letter> <variable>
+<letter> ::= [a-z] | [A-Z]
+<bool> ::= "true" | "false"
+<addop> ::= "+" | "-"
+<mulop> ::= "*" | "/"
+<orop> ::= "||"
+<andop> ::= "&&"
+<notop> ::= "!"
+<compareop> ::= " > " | " >= " | " < " | " <= " | " == " | " != "
+<conditional> ::= "if" | "while"
+<assign> ::= <variable> "=" <term> ";" | <variable> " = " <term> ";" | <variable> "=" <bool> ";" | <variable> " = " <bool> ";"
+
+Alternative...försöker inkludera funktioner med:
+
+
+
+<program> ::= <declaration> | <declaration> <program>
+<declaration> ::= <variable_declaration> | <function_declaration>
+<variable_declaration> ::= <type> <identifier> "=" <expression> ";"
+<function_declaration> ::= <type> <identifier> "(" <params> ")" <block>
+<params> ::= <param> | <param> "," <params>
+<param> ::= <type> <identifier>
+<block> ::= "{" <program> "}"
+<expression> ::= <assignment_expression> | <conditional_expression>
+<assignment_expression> ::= <logical_or_expression> | <identifier> "=" <expression>
+<logical_or_expression> ::= <logical_and_expression> | <logical_or_expression> "||" <logical_and_expression>
+<logical_and_expression> ::= <equality_expression> | <logical_and_expression> "&&" <equality_expression>
+<equality_expression> ::= <relational_expression> | <equality_expression> "==" <relational_expression> | <equality_expression> "!=" <relational_expression>
+<relational_expression> ::= <additive_expression> | <relational_expression> "<" <additive_expression> | <relational_expression> ">" <additive_expression> | <relational_expression> "<=" <additive_expression> | <relational_expression> ">=" <additive_expression>
+<additive_expression> ::= <multiplicative_expression> | <additive_expression> "+" <multiplicative_expression> | <additive_expression> "-" <multiplicative_expression>
+<multiplicative_expression> ::= <unary_expression> | <multiplicative_expression> "*" <unary_expression> | <multiplicative_expression> "/" <unary_expression>
+<unary_expression> ::= <postfix_expression> | "-" <unary_expression> | "!" <unary_expression>
+<postfix_expression> ::= <primary_expression> | <identifier> "(" <arguments> ")" | <identifier> "[" <expression> "]"
+<arguments> ::= <expression> | <expression> "," <arguments>
+<primary_expression> ::= <integer> | <double> | <string> | <array_literal> | <identifier> | "(" <expression> ")"
+<array_literal> ::= "[" <expressions> "]" 
+<expressions> ::= <expression> | <expression> "," <expressions>
+<type> ::= "int" | "double" | "string" | "array" <type>
+<identifier> ::= <letter> | <identifier> <letter_or_digit>
+<letter> ::= [A-Z] | [a-z]
+<digit> ::= [0-9]
+<letter_or_digit> ::= <letter> | <digit>
+<integer> ::= <digit> | <integer> <digit>
+<double> ::= <digit> "." <digit> | <digit> "." <digit> <double>
+<string> ::= "'" <identifier> "'"
+<char> ::= <letter> | <digit> | " " | "-" | "+" | "*" | "/" | "(" | ")" | "[" | "]" | "{" | "}" | "," | ";" | ":" | "'" | "." | "?" | "!" | "&" | "|" | "=" | "<" | ">"
+<conditional_expression> ::= <logical_or_expression> | <logical_or_expression> "?" <expression> ":" <conditional_expression>
+
+
+MAybe third time is a charm...
+
+<program> ::= <statement> <program>
+            | <statement>
+
+<statement> ::= <variable_declaration>
+              | <assignment_statement>
+              | <if_statement>
+              | <for_statement>
+              | <while_statement>
+              | <function_definition>
+              | <expression_statement>
+
+<variable_declaration> ::= <type> <identifier> ";"
+                          | <type> <identifier> "=" <expression> ";"
+
+<assignment_statement> ::= <identifier> "=" <expression> ";"
+
+<if_statement> ::= "if" "(" <expression> ")" <statement> | "if" "(" <expression> ")" "then" <statement> |
+                  "else" <statement>
+
+<for_statement> ::= "for" "(" <variable_declaration> ";" <expression> ";" <assignment_statement> ")" <statement> 
+					| "for" "(" <assignment_statement>
+                       ";" <expression> ";" <assignment_statement> ")" <statement>
+
+<while_statement> ::= "while" "(" <expression> ")" <statement>
+
+<function_definition> ::= "function" <identifier> "(" <parameter_list>? ")" 
+                              "{" <statement>* "}"
+
+<expression_statement> ::= <expression> ";"
+
+<parameter_list> ::= <parameter> ("," <parameter>)*
+
+<parameter> ::= <type> <identifier>
+
+<expression> ::= <literal>
+               | <identifier>
+               | <binary_expression>
+               | <unary_expression>
+               | <function_call>
+               | <array_expression>
+
+<literal> ::= <integer_literal>
+            | <double_literal>
+            | <string_literal>
+            | <boolean_literal>
+
+<integer_literal> ::= <digit> <digit>*
+
+<double_literal> ::= <digit>+ "." <digit>+
+
+<string_literal> ::= "'" <string_characters> "'"
+
+<string_characters> ::= <string_character> <string_characters>
+
+<string_character> ::= [A-Z] | [a-z] | [0-9] | "!" | "@" | "#" | "_" | "&" | "%" | "/" | "?"
+<boolean_literal> ::= "true" | "false"
+
+<binary_expression> ::= <expression> <binary_operator> <expression>
+
+<binary_operator> ::= "+" | "-" | "*" | "/" | "%" | "==" | "!=" | ">" | ">=" | "<" | "<=" | "&&" | "||"
+
+<unary_expression> ::= <unary_operator> <expression>
+
+<unary_operator> ::= "-" | "!"
+
+<function_call> ::= <identifier> "(" <argument_list>? ")"
+
+<argument_list> ::= <expression> ("," <expression>)*
+
+<array_expression> ::= <identifier> "[" <expression> "]"
+
+<type> ::= "Int"
+         | "Double"
+         | "String"
+         | "Array"
+         | "Bool"
+
+<identifier> ::= <letter> (<letter> | <digit> | "_")*
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+<letter> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p"
+

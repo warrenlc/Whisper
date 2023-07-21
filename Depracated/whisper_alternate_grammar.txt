@@ -1,0 +1,36 @@
+
+<program> ::= <statement> <program> | <statement>
+<statement> ::= <variable_declaration> | <assignment_statement> | <if_statement> | <for_statement> | <while_statement> | <function_definition> | <expression_statement> | <return_statement>
+<variable_declaration> ::= <type> <identifier> ";"
+                           | "let" <type> <identifier> "=" <expression> ";"
+<assignment_statement> ::= "let" <identifier> "=" <expression> ";"
+<if_statement> ::= "if" "(" <expression> ")" <statement> | "if" "(" <expression> ")" "then" <statement> | "else" <statement>
+<for_statement> ::= "for" "(" <variable_declaration> ";" <expression> ";" <assignment_statement> ")" <statement>
+                     | "for" "(" <assignment_statement> ";" <expression> ";" <assignment_statement> ")" <statement>
+<while_statement> ::= "while" "(" <expression> ")" <statement>
+<function_definition> ::= "let" <identifier> "-> function" "(" <parameter_list>? ")" "{" <statement>* "}"
+<expression_statement> ::= <expression> ";"
+<return_statement> ::= "return" <expression_statement>
+<parameter_list> ::= <parameter> ("," <parameter>)*
+<parameter> ::= <type> <identifier>
+<expression> ::= <literal> | <identifier> | <binary_expression> | <unary_expression> | <function_call> | <array_expression>
+<literal> ::= <integer_literal> | <double_literal> | <string_literal> | <boolean_literal>
+<integer_literal> ::= <digit> <digit>*
+<double_literal> ::= <digit>+ "." <digit>+
+<string_literal> ::= "'" <string_characters> "'"
+<string_characters> ::= <string_character> <string_characters>
+<string_character> ::= [A-Z] | [a-z] | [0-9] | "!" | "@" | "#" | "_" | "&" | "%" | "/" | "?"
+<boolean_literal> ::= "true" | "false"
+<binary_expression> ::= <expression> <binary_operator> <expression>
+<binary_operator> ::= "+" | "-" | "*" | "/" | "%" | "==" | "!=" | ">" | ">=" | "<" | "<=" | "&&" | "||"
+<unary_expression> ::= <unary_operator> <expression>
+<unary_operator> ::= "-" | "!"
+<function_call> ::= <identifier> "(" <argument_list>? ")"
+<argument_list> ::= <expression> ("," <expression>)*
+<array_expression> ::= <type> "[" <literal> "]" | <type> "[" ("," <literal>)* "]"
+<type> ::= "Int" | "Double" | "String" | "Array" | "Bool"
+<identifier> ::= <letter> (<letter> | <digit> | "_")*
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<letter> ::= [A-Z] | [a-z]
+ 
+

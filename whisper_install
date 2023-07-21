@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Move relevant files to the path:
+mkdir -p /usr/local/bin/whisper/classes
+mkdir -p /usr/local/bin/whisper/parser
+mkdir -p /usr/local/bin/whisper/whisper
+cp ./whisper/whisper.rb /usr/local/bin/whisper/whisper
+cp ./parser/parser.rb /usr/local/bin/whisper/parser
+cp ./classes/* /usr/local/bin/whisper/classes
+
+# Make executable:
+chmod u+x /usr/local/bin/whisper/whisper/whisper.rb
+mv /usr/local/bin/whisper/whisper/whisper.rb /usr/local/bin/whisper/whisper/whisper
+
+# Add PATH to .bashrc file:
+echo "export PATH=/usr/local/bin/whisper/whisper:$PATH" >> ~/.bashrc
+
+# Add Man page to Man path:
+sudo cp ./whisper.man /usr/share/man/man1/whisper.1

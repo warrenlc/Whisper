@@ -1,0 +1,139 @@
+<program>         := <stmt_list>
+
+<stmt_list>       := <stmt> | <stmt_list> ';' <stmt>
+
+<stmt>            := <built_in_eval> |
+                     <if_stmt> |
+                     <while_stmt> |
+                     <func_define> |
+                     <assign_stmt> |
+                     <for_each_stmt> |
+                     <break_stmt>    |
+                     <continue_stmt> |
+                     <expression>
+
+<built_in_eval>   := 'show' '(' <expression> ')' |
+                     <expression> '?' <inquiry>  |
+                     <expression> '!' <command>  |
+                     <expression> '.' <array_transform> '(' <id> ')'
+
+<inquiry>         := 'empty' | 'size'
+
+<command>         := 'sort' | 'flip' | 'set'
+
+<array_transform> := 'map' | 'filter'       
+
+<if_stmt>         := 'if' <expression> 'then' '{' <stmt_list> '}' 'else' '{' <stmt_list> '}' |
+                     'if' <expression> 'then' '{' <stmt_list> '}'
+             
+<while_stmt>      := 'while' <expression> 'do' '{' <stmt_list> '}'
+
+<func_define>     := 'let' <id> '(' <arg_list> ')' '=' '{' <stmt_list> '}'
+
+<arg_list>        := <id> | <expression> | <arg_list> ',' <id>
+
+<assign_stmt>     := 'let' <variable> '=' <built_in_eval> |
+                     'let' <id> '=' <expression> |
+                     <variable> <reassign_op> <expression> |
+                     'let' <variable> '[' <expression> ']' '=' <expression> |
+                     'let' <record_name> '=' <record_fields>
+
+<for_each_stmt>   := 'for' <id> 'in' <expression> 'do' '{' <stmt_list> '}'
+
+<break_stmt>      := 'break'
+
+<continue_stmt>   := 'continue'
+
+<record_fields>   := <record_fields> ';' <id> = <expression> | 
+                     <id> '=' <expression>
+
+<id>              := /[a-z\_]+[a-z0-9\_]*/
+
+<func_eval>       := <id> '(' <exp_list> ')'
+
+<exp_list>        := <expression> |
+                     <exp_list> ',' <expression>
+
+<expression>      := <record_access> |
+                     <term> |
+                     <variable> |
+                     <continue_stmt> |
+                     <break_stmt>
+
+<term>            := <logical_term> |
+                     <arith_term>
+
+<arith_term>      := <arith_factor> |
+                     <arith_term> <add_op> <arith_factor> |
+                     <arith_term> <rel_op> <arith_factor>
+
+<arith_factor>    := <arith_expon> |
+                     <arith_factor> <bitwise_op> <arith_expon> |
+                     <arith_factor> <mul_op> <arith_expon> |
+                     <arith_factor> <eq_op> <arith_atom>
+
+<arith_expon>     := <array_access> |
+                     <arith_expon> <exp_op> <array_access>
+
+<array_access>    := <arith_atom> '[' <expression> ']' |
+                     <arith_atom>
+
+<arith_atom>      := 'Primes' '{' <digit> '}' |
+                     <func_eval> |
+                     <literal> |
+                     '(' <arith_term> ')' |
+                     'N' '{' <digit> '}' |
+                     '[' <exp_list> ']' |
+                     <unary_minus> <arith_atom> |
+                     '{' <record_fields> '}'
+
+<logical_term>    := <logical_factor> |
+                     <logical_term> <or_op> <logical_factor>
+
+<logical_factor>  := <logical_atom> |
+                     <logical_factor> <and_op> <logical_atom>
+
+<logical_atom>    := <bool> |
+                     <literal> '?' 'prime' |
+                     '(' <logical_term> ')' |
+                     '!' <logical_atom>
+
+<reassign_op>     := <increment> | <decrement> | <re_divide> | <re_multiply>
+
+<unary_minus>     := '-' | '~'
+
+<increment>       := '+='
+
+<decrement>       := '-='
+
+<re_divide>       := '/='
+
+<re_multiply>     := '*='
+
+<bitwise_op>      := '<<' | '>>' | '&' | '^' | '|'
+
+<add_op>          := '+' | '-'
+
+<mul_op>          := '*' | '/' | '%'
+
+<exp_op>          := '@'
+
+<or_op>           := '||'
+
+<and_op>          := '&&'
+
+<rel_op>          := '>' | '<' | '<=' | '>='
+
+<eq_op>           := '==' | '!='
+
+<variable>        := /[a-z\_]+[a-z0-9\_]*/
+
+<literal>         := <digit> | <variable>
+
+<digit>           := '-'? /\d+(\.\d+)?/
+
+<bool>            := 'true' | 'false'
+
+<record_access>   := <record_name>    '.' <id>  |
+                     <record_access'> '.' <id>
+<record_name>     := /[A-Z][a-zA-Z0-9\_]+/
